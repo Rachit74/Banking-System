@@ -25,6 +25,20 @@ def delete_account():
 	cur.execute("DELETE FROM User WHERE name=(%s)", (name,))
 	print("Account Deleted")
 
+def deposit():
+	name = input("Enter Name: ")
+	amt = int(input("Enter Amount to deposit: "))
+	cur.execute("UPDATE User SET amount = amount + %s WHERE name = %s", (amt,name,))
+	db.commit()
+	print("Amount Deposited")
+
+def withdraw():
+	name = input("Enter Name: ")
+	amt = int(input("Enter Amount to deposit: "))
+	cur.execute("UPDATE User SET amount = amount - %s WHERE name = %s", (amt,name,))
+	db.commit()
+	print("Amount withdrawn")
+
 def account_info():
 	name = input("Enter Name: ")
 
@@ -53,9 +67,7 @@ def task_():
 		2.close account
 		3.deposit
 		4.withdraw
-		5.take loan
-		6.Repay loan
-		7.Account Info
+		5.Account Info
 			""")
 
 		t = input("Enter Task Number: ")
@@ -65,14 +77,10 @@ def task_():
 		elif t==str(2):
 			delete_account()
 		elif t==str(3):
-			pass
+			deposit()
 		elif t==str(4):
-			pass
+			withdraw()
 		elif t==str(5):
-			pass
-		elif t==str(6):
-			pass
-		elif t==str(7):
 			account_info()
 		elif t=="q":
 			break

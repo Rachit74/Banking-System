@@ -8,6 +8,31 @@ db = connector.connect(
 
 cur=db.cursor()
 
+"""
+Query Functions
+"""
+def create_account():
+	name = input("Enter Name: ")
+	age = int(input("Enter Age: "))
+	mobile = int(input("Enter Mobile Number: "))
+	amt = int(input("Enter Amount: "))
+
+	cur.execute("INSERT INTO User(name, age, mobile_no,amount) VALUES(%s,%s,%s,%s)", (name,age,mobile,amt))
+	db.commit()
+
+def delete_account():
+	name = input("Enter Name: ")
+	cur.execute("DELETE FROM User WHERE name=(%s)", (name,))
+	print("Account Deleted")
+
+def account_info():
+	name = input("Enter Name: ")
+
+	cur.execute("SELECT * FROM User WHERE name=(%s)", (name,))
+	for x in cur:
+		print(x)
+	# pass
+
 
 def welcome_():
 	print(
@@ -21,32 +46,47 @@ def welcome_():
 
 
 def task_():
-	print("""
+	while True:
+		print("""
+		----------Bank Options----------
 		1.create account
 		2.close account
 		3.deposit
 		4.withdraw
 		5.take loan
 		6.Repay loan
-		""")
+		7.Account Info
+			""")
 
-	t = int(input("Enter Task Number: "))
+		t = input("Enter Task Number: ")
 
-	if t==1:
-		pass
-	elif t==2:
-		pass
-	elif t==3:
-		pass
-	elif t==4:
-		pass
-	elif t==5:
-		pass
-	elif t==6:
-		pass
-	else:
-		print("Invalid Task")
+		if t==str(1):
+			create_account()
+		elif t==str(2):
+			delete_account()
+		elif t==str(3):
+			pass
+		elif t==str(4):
+			pass
+		elif t==str(5):
+			pass
+		elif t==str(6):
+			pass
+		elif t==str(7):
+			account_info()
+		elif t=="q":
+			break
+		else:
+			print("Invalid Task")
+			continue
 
+
+
+"""
+Database check/Creating Database
+Conneting with database
+Table check/creating Table
+"""
 
 #database check
 cur.execute("SHOW DATABASES")
@@ -59,6 +99,7 @@ else:
 	cur.execute("CREATE DATABASE Bank")
 	print("Database Created")
 
+# connecting with database
 db = connector.connect(
 	host="localhost",
 	username="root",
@@ -69,7 +110,7 @@ db = connector.connect(
 cur=db.cursor()
 
 
-
+# checking table
 cur.execute("SHOW TABLES")
 lst_ = cur.fetchall()
 user = 'user'
@@ -79,4 +120,7 @@ else:
 	cur.execute("CREATE TABLE User (account_id int PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), age int, mobile_no int, amount int)")
 	print("Table Created")
 
-# welcome_()
+
+
+welcome_()
+task_()

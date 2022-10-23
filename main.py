@@ -19,6 +19,10 @@ def create_account():
 
 	cur.execute("INSERT INTO User(name, age, mobile_no,amount) VALUES(%s,%s,%s,%s)", (name,age,mobile,amt))
 	db.commit()
+	cur.execute("SELECT account_id FROM User WHERE name=%s", (name,))
+	for x in cur:
+		id_=x
+	print(f"ACCOUNT CREATED YOUR ACCOUNT ID IS {id_}")
 
 def delete_account():
 	name = input("Enter Name: ")

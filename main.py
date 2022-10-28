@@ -16,40 +16,49 @@ def create_account():
 	age = int(input("Enter Age: "))
 	mobile = int(input("Enter Mobile Number: "))
 	amt = int(input("Enter Amount: "))
+	pass_ = input("Passoword: ")
 
-	cur.execute("INSERT INTO User(name, age, mobile_no,amount) VALUES(%s,%s,%s,%s)", (name,age,mobile,amt))
+	cur.execute("INSERT INTO User(name, age, mobile_no,amount, acc_pass) VALUES(%s,%s,%s,%s,%s)", (name,age,mobile,amt,pass_))
 	db.commit()
 	cur.execute("SELECT account_id FROM User WHERE name=%s", (name,))
 	for x in cur:
 		id_=x
-	print(f"ACCOUNT CREATED YOUR ACCOUNT ID IS {id_}")
+	print(f"ACCOUNT CREATED YOUR ACCOUNT ID IS {id_} AND PASSWORD IS {pass_}")
 
 def delete_account():
-	name = input("Enter Name: ")
-	cur.execute("DELETE FROM User WHERE name=(%s)", (name,))
-	print("Account Deleted")
+	id_1 = input("Enter id: ")
+	passw_ = input("Enter Password: ")
+	cur.execute("SELECT acc_pass FROM User WHERE account_id = %s", (id_1,))
+	for x in cur:
+		pass_=str(x)
+	pass_2 = pass_[2:-3]
+	print(pass_2)
+	if passw_ == pass_2:
+		cur.execute("DELETE FROM User WHERE account_id=(%s)", (id_1,))
+		db.commit()
+		print("Account Deleted")
+	else:
+		print("Invalid Password")
 
 def deposit():
-	name = input("Enter Name: ")
+	id_1 = input("Enter id: ")
 	amt = int(input("Enter Amount to deposit: "))
-	cur.execute("UPDATE User SET amount = amount + %s WHERE name = %s", (amt,name,))
+	cur.execute("UPDATE User SET amount = amount + %s WHERE account_id = %s", (amt,id_1,))
 	db.commit()
 	print("Amount Deposited")
 
 def withdraw():
-	name = input("Enter Name: ")
+	id_1 = input("Enter id: ")
 	amt = int(input("Enter Amount to deposit: "))
-	cur.execute("UPDATE User SET amount = amount - %s WHERE name = %s", (amt,name,))
+	cur.execute("UPDATE User SET amount = amount - %s WHERE account_id = %s", (amt,id_1,))
 	db.commit()
 	print("Amount withdrawn")
 
 def account_info():
-	name = input("Enter Name: ")
-
-	cur.execute("SELECT * FROM User WHERE name=(%s)", (name,))
+	id_1 = input("Enter id: ")
+	cur.execute("SELECT * FROM User WHERE account_id=(%s)", (id_1,))
 	for x in cur:
 		print(x)
-	# pass
 
 
 def welcome_():
@@ -129,7 +138,7 @@ user = 'user'
 if (user,) in lst_:
 	print("Table Already Exists")
 else:
-	cur.execute("CREATE TABLE User (account_id int PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), age int, mobile_no int, amount int)")
+	cur.execute("CREATE TABLE User (account_id int PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), age int, mobile_no int, amount int, acc_pass VARCHAR(50))")
 	print("Table Created")
 
 

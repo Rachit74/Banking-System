@@ -32,7 +32,6 @@ def delete_account():
 	for x in cur:
 		pass_=str(x)
 	pass_2 = pass_[2:-3]
-	print(pass_2)
 	if passw_ == pass_2:
 		cur.execute("DELETE FROM User WHERE account_id=(%s)", (id_1,))
 		db.commit()
@@ -42,23 +41,47 @@ def delete_account():
 
 def deposit():
 	id_1 = input("Enter id: ")
-	amt = int(input("Enter Amount to deposit: "))
-	cur.execute("UPDATE User SET amount = amount + %s WHERE account_id = %s", (amt,id_1,))
-	db.commit()
-	print("Amount Deposited")
+	passw_ = input("Enter Passoword: ")
+	cur.execute("SELECT acc_pass FROM User WHERE account_id = %s", (id_1,))
+	for x in cur:
+		pass_=str(x)
+	pass_2 = pass_[2:-3]
+	if passw_ == pass_2:
+		amt = int(input("Enter Amount to deposit: "))
+		cur.execute("UPDATE User SET amount = amount + %s WHERE account_id = %s", (amt,id_1,))
+		db.commit()
+		print("Amount Deposited")
+	else:
+		print("Invalid Password!")
 
 def withdraw():
 	id_1 = input("Enter id: ")
-	amt = int(input("Enter Amount to deposit: "))
-	cur.execute("UPDATE User SET amount = amount - %s WHERE account_id = %s", (amt,id_1,))
-	db.commit()
-	print("Amount withdrawn")
+	passw_ = input("Enter Password: ")
+	cur.execute("SELECT acc_pass FROM User WHERE account_id = %s", (id_1,))
+	for x in cur:
+		pass_=str(x)
+	pass_2 = pass_[2:-3]
+	if passw_ == pass_2:
+		amt = int(input("Enter Amount to deposit: "))
+		cur.execute("UPDATE User SET amount = amount - %s WHERE account_id = %s", (amt,id_1,))
+		db.commit()
+		print("Amount withdrawn")
+	else:
+		print("Invalid Password")
 
 def account_info():
 	id_1 = input("Enter id: ")
-	cur.execute("SELECT * FROM User WHERE account_id=(%s)", (id_1,))
+	passw_ = input("Enter Password: ")
+	cur.execute("SELECT acc_pass FROM User WHERE account_id = %s", (id_1,))
 	for x in cur:
-		print(x)
+		pass_=str(x)
+	pass_2 = pass_[2:-3]
+	if passw_ == pass_2:
+		cur.execute("SELECT * FROM User WHERE account_id=(%s)", (id_1,))
+		for x in cur:
+			print(x)
+	else:
+		print("Invalid Password")
 
 
 def welcome_():

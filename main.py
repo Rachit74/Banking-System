@@ -88,7 +88,7 @@ def welcome_():
 	print(
 		"""
 		----------BANKING SYSTEM PROJECT----------
-		PROJECT MADE BY:- RACHIT HOODA
+		PROJECT MADE BY:- Rachit Hooda, Pranay Tiwari, Anuj Gurjar, Sahil Yadav
 		CLASS:- XII A SCIENCE
 		"""
 		)
